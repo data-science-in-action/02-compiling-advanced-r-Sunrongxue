@@ -1,0 +1,66 @@
+---
+title: "Problems and Solutions to Compile a PDF Version of Advanced R"
+author:"Sunrongxue"
+output: html_document
+---
+
+R version is 3.6.3
+
+## When I open the project(Adv-r.Rproj) using Rstudio:  
+Error in loadNamespace(name) : there is no package called ‘bookdown’
+
+so I install the package bookdown by
+```{r eval=FALSE}
+install.packages("bookdown")
+```
+but it didn't work with error:package ‘bookdown’ is not available (for R version 3.6.3) 
+then I change the CRANmirror by
+```{r eval=FALSE}
+chooseCRANmirror()
+```
+
+## And then I compile the book:
+```{r eval=FALSE}
+bookdown::render_book("index.Rmd",output_format="bookdown::pdf_book")
+```
+
+## Problems and solutions during the building process
+
+Problem 1
+
+Quitting from lines 223-235 (Introduction.Rmd) 
+Error in cat(paste0(contributors$desc, collapse = ", ")) : 
+
+Solution:adding encoding="UTF-8" in line 224 of introduction.rmd to fix it.
+```{r eval=FALSE}
+contributors <- read.csv("contributors.csv", stringsAsFactors = FALSE, encoding = "UTF-8")
+```
+
+Problem 2
+
+Error in loadNamespace(name) : there is no package called "..."
+
+Solution:install some packages by
+```{r eval=FALSE}
+install.packages()"knitr","desc","sessioninfo","lobstr","ggplot2","devtools","sloop","DBI","RSQLite","profvis","bench","tidyr",
+```
+
+Problem 3 
+
+Error in loadNamespace(name) : there is no package called "emo"
+Calls: local ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+
+I can't use "install.packages" to download this packages
+
+Solution:use devtools to install the package from github
+```{r eval=FALSE}
+install.packages("devtools")
+devtools::install_github("hadley/emo")
+```
+but there is a new problem
+
+Error in .f(.x[[i]], .y[[i]], ...) : Can't open URL'https://adv-r.hadley.nz'
+I'm still looking for a solution
+
+
+to be continued
